@@ -72,7 +72,8 @@ public class BurpExtender implements IBurpExtender, IContextMenuFactory
                         Collectors.groupingBy(Header::getName, //header name into...
                         Collectors.mapping(Header::getContent, Collectors.toList()))); //a map of header name to values
         int offset = requestInfo.getBodyOffset();
-        byte[] body = Arrays.copyOf(requestResponse.getRequest(), offset);
+        byte[] request = requestResponse.getRequest();
+        byte[] body = Arrays.copyOfRange(request, offset, request.length);
         return new VegetaDefinition(
                 body.length > 0 ? body : null,
                 headers,
