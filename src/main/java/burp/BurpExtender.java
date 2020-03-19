@@ -56,6 +56,7 @@ public class BurpExtender implements IBurpExtender, IContextMenuFactory
                     .collect(Collectors.joining(System.lineSeparator()));
             stdout.println("Result:");
             stdout.println(entries);
+            entries += System.lineSeparator(); //Add a final line separator since Vegeta expects a final newline
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(entries), null);
         }
         catch(Exception e) {
