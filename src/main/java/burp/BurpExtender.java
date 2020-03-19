@@ -67,10 +67,10 @@ public class BurpExtender implements IBurpExtender, IContextMenuFactory
         IRequestInfo requestInfo = helpers.analyzeRequest(requestResponse);
         Map<String, List<String>> headers = requestInfo.getHeaders().stream()
                 .skip(1) //skip the verb line
-                .map(Header::Parse)
-                .collect(
-                        Collectors.groupingBy(Header::getName,
-                        Collectors.mapping(Header::getContent, Collectors.toList())));
+                .map(Header::Parse) //parse each header
+                .collect( //group by...
+                        Collectors.groupingBy(Header::getName, //header name into...
+                        Collectors.mapping(Header::getContent, Collectors.toList()))); //a map of header name to values
         int offset = requestInfo.getBodyOffset();
         byte[] body = Arrays.copyOf(requestResponse.getRequest(), offset);
         return new VegetaDefinition(
